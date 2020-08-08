@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,20 +40,31 @@ namespace GovorniciXYZ
 		private void Klik(object sender, RoutedEventArgs e)
 		{
 			(DataContext as Govornik).Govori();
-			dg.ItemsSource = slu.ToList();
+			//dg.ItemsSource = slu.ToList();
 		}
 	}
 
-	public class Slusaoc
+	public class Slusaoc : INotifyPropertyChanged
 	{
 		public string Ime { get; set; }
-		public string ZadnjeReceno { get; set; }
+		private string _zadnjeReceno;
+		public string ZadnjeReceno 
+		{ 
+			get => _zadnjeReceno; 
+			set
+			{
+				_zadnjeReceno = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ZadnjeReceno"));
+			}
+		}
 
 		public Slusaoc(string i, Govornik g)
 		{
 			Ime = i;
 			g.GovoriSe += Slusaj;
 		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public void Slusaj(object s, GovorEventArgs e)
 			=> ZadnjeReceno = e.govor;
