@@ -10,7 +10,27 @@
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
 			<TextBox Text="{Binding Govor}" FontSize="24" MinWidth="300"/>
 			<Button FontSize="24" Click="Klik">Govor</Button>
+			<ComboBox FontSize="24" Name="cbox"/>
 		</StackPanel>
-	    <DataGrid Name="dg" FontSize="24" IsReadOnly="True" ColumnWidth="*"/>
+		<DataGrid AutoGenerateColumns="False" IsReadOnly="True" Name="dg" FontSize="24"  ColumnWidth="*">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
+				
+				<DataGridTemplateColumn Header="Moj cbox">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<CheckBox IsChecked="{Binding Slusam, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<ComboBox ItemsSource="{Binding SveReceno}"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>	
+		</DataGrid>
 	</DockPanel>
 </Window>

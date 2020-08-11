@@ -35,6 +35,15 @@ namespace GovorniciXYZ
 			slu.Add(new Slusaoc("Neko", (DataContext as Govornik)));
 			slu.Add(new Slusaoc("Trecko", (DataContext as Govornik)));
 			slu.Add(new Slusaoc("Zklj", (DataContext as Govornik)));
+
+			List<string> nesto = new List<string>();
+			nesto.Add("Jen");
+			nesto.Add("Dva");
+			nesto.Add("Tri");
+			cbox.ItemsSource = slu;
+			cbox.DisplayMemberPath = "Ime";
+			if (nesto.Count > 0)
+				cbox.SelectedIndex = 0;
 		}
 
 		private void Klik(object sender, RoutedEventArgs e)
@@ -46,28 +55,37 @@ namespace GovorniciXYZ
 
 	public class Slusaoc : INotifyPropertyChanged
 	{
-		public string Ime { get; set; }
-		private string _zadnjeReceno;
-		public string ZadnjeReceno 
+		private Govornik gov;
+
+		private bool _slusam;
+		public bool Slusam 
 		{ 
-			get => _zadnjeReceno; 
+			get => _slusam; 
 			set
 			{
-				_zadnjeReceno = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ZadnjeReceno"));
+				_slusam = value;
+				if (_slusam)
+					gov.GovoriSe += Slusaj;
+				else
+					gov.GovoriSe -= Slusaj;
 			}
 		}
+
+		public string Ime { get; set; }
+
+		public ObservableCollection<string> SveReceno { get; set; } = new ObservableCollection<string>(); 
 
 		public Slusaoc(string i, Govornik g)
 		{
 			Ime = i;
-			g.GovoriSe += Slusaj;
+			gov = g;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public void Slusaj(object s, GovorEventArgs e)
-			=> ZadnjeReceno = e.govor;
+			=> SveReceno.Add(e.govor);
+
 	}
 
 	public class GovorEventArgs : EventArgs
