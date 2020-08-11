@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 	<DockPanel>
+		<TextBox Name="prt" Text="{Binding Pretraga, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top" FontSize="24"/>
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
 			<TextBox Text="{Binding Govor}" FontSize="24" MinWidth="300"/>
 			<Button FontSize="24" Click="Klik">Govor</Button>

@@ -23,12 +23,22 @@ namespace GovorniciXYZ
 	public partial class MainWindow : Window
 	{
 		ObservableCollection<Slusaoc> slu = new ObservableCollection<Slusaoc>();
+		private string _pretraga;
+		public string Pretraga 
+		{ 
+			get => _pretraga; 
+			set
+			{
+				_pretraga = value;
+				dg.ItemsSource = slu.Where(slus => slus.Ime.ToUpper().Contains(_pretraga.ToUpper())).ToList();
+			}
+		}
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			DataContext = new Govornik();
-
+			prt.DataContext = this;
 			dg.ItemsSource = slu;
 
 			slu.Add(new Slusaoc("Pera", (DataContext as Govornik)));
